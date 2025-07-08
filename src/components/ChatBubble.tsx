@@ -73,6 +73,7 @@ export default function ChatBubble({ message, onDelete, onReply }: Props) {
 
 const styles = StyleSheet.create({
     bubble: {
+        backgroundColor: '#1f1f1f',
         padding: 10,
         borderRadius: 10,
         marginVertical: 4,
