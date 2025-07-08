@@ -1,28 +1,40 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, StatusBar, View, StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ChatProvider } from './src/context/ChatContext';
+import ChatScreen from './src/screens/ChatScreen';
+import SplashScreen from './src/screens/Startup';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+export default function App() {
+  const [isSplashVisible, setIsSplashVisible] = useState(true);
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsSplashVisible(false);
+    }, 2000); // Show splash screen for 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    <GestureHandlerRootView style={styles.root}>
+      <StatusBar barStyle="light-content" backgroundColor="#000" />
+      <ChatProvider>
+        <SafeAreaView style={styles.safeArea}>
+          {isSplashVisible ? <SplashScreen /> : <ChatScreen />}
+        </SafeAreaView>
+      </ChatProvider>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
+    backgroundColor: '#000',
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#000',
   },
 });
-
-export default App;
